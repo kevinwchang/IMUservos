@@ -63,8 +63,6 @@ static volatile uint8_t twi_error;
 #define true 1
 #define false 0
 
-#define digitalWrite(pin, value) (set_digital_output((pin), (value)))
-
 #define SDA PC4
 #define SCL PC5
 
@@ -84,8 +82,8 @@ void twi_init(void)
   twi_inRepStart = false;
   
   // activate internal pullups for twi.
-  digitalWrite(SDA, 1);
-  digitalWrite(SCL, 1);
+  set_digital_input(SDA, PULL_UP_ENABLED);
+  set_digital_input(SCL, PULL_UP_ENABLED);
 
   // initialize twi prescaler and bit rate
   cbi(TWSR, TWPS0);
