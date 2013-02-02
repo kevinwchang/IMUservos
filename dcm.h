@@ -4,7 +4,7 @@
 extern float G_Dt;
 
 extern float pitch;
-extern float yaw;
+extern float roll;
 
 void Normalize(void);
 void Drift_correction(void);

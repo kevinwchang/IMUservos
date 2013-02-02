@@ -8,6 +8,8 @@
 #define Kp_ROLLPITCH 0.02
 #define Ki_ROLLPITCH 0.00002
 
+#define CORRECT_DRIFT
+
 float G_Dt;
 
 float DCM_Matrix[3][3] = {
@@ -92,20 +94,20 @@ void Drift_correction(void)
 
 void Matrix_update(void)
 {
-  Gyro_Vector[0]=g[X]; //gyro x roll
-  Gyro_Vector[1]=g[Y]; //gyro y pitch
-  Gyro_Vector[2]=g[Z]; //gyro Z yaw
+  Gyro_Vector[0] = gyro_scale(g[X]); //gyro x roll
+  Gyro_Vector[1] = gyro_scale(g[Y]); //gyro y pitch
+  Gyro_Vector[2] = gyro_scale(g[Z]); //gyro Z yaw
   
-  Accel_Vector[0]=a[X];
-  Accel_Vector[1]=a[Y];
-  Accel_Vector[2]=a[Z];
+  Accel_Vector[0] = -a[X];
+  Accel_Vector[1] = -a[Y];
+  Accel_Vector[2] = -a[Z];
     
   Vector_Add(&Omega[0], &Gyro_Vector[0], &Omega_I[0]);  //adding proportional term
   Vector_Add(&Omega_Vector[0], &Omega[0], &Omega_P[0]); //adding Integrator term
 
   //Accel_adjust();    //Remove centrifugal acceleration.   We are not using this function in this version - we have no speed measurement
   
- #if OUTPUTMODE==1         
+ #ifdef CORRECT_DRIFT
   Update_Matrix[0][0]=0;
   Update_Matrix[0][1]=-G_Dt*Omega_Vector[2];//-z
   Update_Matrix[0][2]=G_Dt*Omega_Vector[1];//y

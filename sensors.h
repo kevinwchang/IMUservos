@@ -99,6 +99,9 @@ extern int16_t a[3];
 
 #define GRAVITY 256
 
+#define GYRO_GAIN     (0.07 * M_PI / 180)
+#define gyro_scale(x) ((x) * GYRO_GAIN)
+
 void gyro_init(void);
 void gyro_write_reg(uint8_t reg, uint8_t value);
 void gyro_read(void);

@@ -1,5 +1,6 @@
 #include "sensors.h"
 #include "twi.h"
+#include <math.h>
 
 #define GYRO_ADDRESS  0b1101011
 #define ACC_ADDRESS   0b0011001
@@ -9,7 +10,7 @@ int16_t a[3];
 
 void gyro_init(void)
 {
-  gyro_write_reg(L3G_CTRL_REG1, 0x0F); // normal power mode, all axes enabled, 100 Hz
+  gyro_write_reg(L3G_CTRL_REG1, 0x0F); // normal power mode, all axes enabled, 95 Hz
   gyro_write_reg(L3G_CTRL_REG4, 0x20); // 2000 dps full scale
 }
 
